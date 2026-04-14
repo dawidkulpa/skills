@@ -47,6 +47,19 @@ description: "What this skill does and when an agent should use it"
 - `description` (one sentence describing what the skill does + trigger condition for agent use)
 
 **Optional fields** (if metadata is needed):
+
+```yaml
+---
+name: skill-name
+description: "What this skill does and when an agent should use it"
+metadata:
+  author: "Your Name"
+  tags: "tag1, tag2"
+  version: "1.0.0"
+---
+```
+
+Optional metadata fields:
 - `metadata.author` — author name or organization
 - `metadata.tags` — comma-separated tags for categorization
 - `metadata.version` — version number (e.g., `1.0.0`)
@@ -77,7 +90,7 @@ Each skill is self-contained:
 When you add, remove, or rename a skill:
 
 1. Update the skill catalog table in `README.md`
-2. Add a row for new skills with: directory name, SKILL.md name, and description
+2. Add a row for new skills with: name (kebab-case) and description
 3. Remove rows for deleted skills
 4. Keep the table sorted alphabetically by skill name
 
