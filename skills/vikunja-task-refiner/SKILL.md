@@ -63,7 +63,7 @@ Implementation plan has been written into the task description. Please review an
 
 ## Task Description Append Format
 
-Use the exact section header `## 🤖 Agent Analysis` on its own line so task-executor can parse it reliably. Put the timestamp on the next line.
+Use the exact section header `## 🤖 Agent Analysis` on its own line so vikunja-task-executor can parse it reliably. Put the timestamp on the next line.
 
 ```
 [Original human content — NEVER touched]
