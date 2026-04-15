@@ -85,15 +85,6 @@ Each skill is self-contained:
 - Never assume other skills are available in the agent's context
 - All required instructions, context, and examples live inside the skill folder
 
-## README Catalog Maintenance
-
-When you add, remove, or rename a skill:
-
-1. Update the skill catalog table in `README.md`
-2. Add a row for new skills with: name (kebab-case) and description
-3. Remove rows for deleted skills
-4. Keep the table sorted alphabetically by skill name
-
 ## Verification Checklist
 
 Before finalizing a skill:
@@ -105,4 +96,3 @@ Before finalizing a skill:
 - [ ] Description explains what the skill does + when an agent should use it
 - [ ] No cross-references to other skill folders
 - [ ] Supporting files use relative paths only
-- [ ] README.md catalog has been updated

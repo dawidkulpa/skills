@@ -12,14 +12,16 @@ This repository contains portable, agent-agnostic skills you can use with Claude
 
 That's it. No installation commands, no configuration files. Just copy and use.
 
-## Available Skills
+## Skills
 
-| Name | Description |
-|------|-------------|
-| _No skills published yet_ | Check back soon or browse the `skills/` directory for work in progress. |
+Browse the `skills/` directory — each folder contains a `SKILL.md` with full instructions.
 
 ## License
 
 This project is licensed under the MIT License. See [LICENSE](./LICENSE) for details.
 
 © 2026 dawidkulpa
+
+## Disclaimer
+
+Parts of this repository, including documentation and skill definitions, were generated or co-authored with AI tools. All content is reviewed and curated by the author.
