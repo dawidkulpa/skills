@@ -94,9 +94,15 @@ NEVER OVERWRITE DESCRIPTION: When any workflow needs to write analysis or plan d
    - Dispatch only after the task is claimed and context is loaded.
    - After dispatching one task, EXIT. The next cron tick is responsible for any remaining board work.
 
+## Vikunja Content Formatting
+
+- Table of basic HTML tags: <strong>, <em>, <p>, <br>, <code>
+- Example agent comment in HTML vs markdown (showing what NOT to do)
+
 ## Must NOT Do
 
 - Do NOT pick up tasks from Open (7), Refined (10), Human (9), or Done (6) columns.
 - Do NOT implement priority scoring, urgency calculations, or smart ranking.
 - Do NOT retry failed operations — if something fails, move the task to Human (9) and explain why with an `🤖 **Agent**:` comment.
 - Do NOT include live credentials or other sensitive values anywhere in this file.
+- Do NOT write markdown in Vikunja comments or descriptions — always use HTML tags.

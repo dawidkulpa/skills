@@ -136,6 +136,15 @@ CODING TASK DETECTION: If the task requires coding, scripting, or software devel
 7. **Move to Refined**  
     After the full plan has been appended and the completion comment has been posted, move the task to Refined with `vikunja_task_move.move(projectId=2, viewId=8, taskId=N, bucketId=10)`. This column means analysis is complete but execution is not yet authorized. Human approval remains mandatory: the human must manually move the task from Refined to Queued before vikunja-task-executor is allowed to act.
 
+## Vikunja Content Formatting
+
+- Full HTML tags reference table (same as task-executor)
+- Implementation Plan Format (HTML) — full template with <hr><h2>🤖 Agent Analysis</h2>, <h3>Summary</h3>, <h3>Implementation Plan</h3> (ordered list), <h3>Prerequisites</h3>, <h3>Expected Outcome</h3>, <h3>Expected Artifacts</h3>, <h3>Estimated Complexity</h3>
+- 2 agent comment templates:
+  1. Question Comment
+  2. Analysis Complete Comment
+- Appending to Descriptions — instruction to concatenate [current description] + "\n\n<hr>\n\n" + [new HTML plan section]
+
 ## Must NOT Do
 
 - Do NOT delete or modify existing comments.
@@ -143,3 +152,4 @@ CODING TASK DETECTION: If the task requires coding, scripting, or software devel
 - Do NOT attempt to execute the plan — only write it.
 - Do NOT auto-approve; human approval is always required to move from Refined to Queued.
 - Do NOT ask more than 5 questions at a time.
+- Do NOT write markdown in Vikunja — always use HTML tags. Markdown will display as plain text.

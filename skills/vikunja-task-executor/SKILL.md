@@ -171,6 +171,17 @@ When execution produces files to upload as task attachments:
 6. **Move to Done**  
    After the success comment is posted, move the task to Done with `vikunja_task_move.move({ projectId: 2, viewId: 8, taskId: N, bucketId: 6 })`. Then mark the task complete with `vikunja_tasks.update({ id: N, done: true })`. Do not leave a successfully executed task in In Progress.
 
+## Vikunja Content Formatting
+
+- Full HTML tags reference table (<p>, <strong>, <em>, <h2>, <h3>, <ul>, <ol>, <code>, <pre><code>, <blockquote>, <hr>)
+- 5 ready-to-use HTML comment templates:
+  1. Pickup Acknowledgment Comment
+  2. Progress Comment
+  3. Success Comment
+  4. Error Comment
+  5. Question Comment (Mid-Execution)
+- Appending to Descriptions — HTML structure for <hr><h2>🤖 Execution Results</h2>...
+
 ## Must NOT Do
 
 - Do NOT write code or modify source files; escalate coding tasks to Human.
@@ -183,3 +194,4 @@ When execution produces files to upload as task attachments:
 - Do NOT upload files not named in the implementation plan's `### Expected Artifacts` section.
 - Do NOT download every attachment speculatively — only download when the filename or plan reference suggests relevance.
 - Do NOT use the Question Protocol for actual failures or errors — questions are for ambiguity and human decisions only. If something is broken, use Error Escalation.
+- Do NOT write markdown in Vikunja — always use HTML tags. Markdown will display as plain text.
