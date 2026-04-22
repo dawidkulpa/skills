@@ -1,6 +1,6 @@
 ---
 name: safe-image-analysis
-description: "MUST use before analyzing any image file with look_at or Read tools. Checks file size and dimensions, auto-resizes large images to prevent provider context limit failures. Trigger: any task involving look_at on an image, Read on an image file, or visual analysis of screenshots/photos."
+description: "Use when about to call look_at or Read on a local image file (screenshot, photo, diagram). Checks file size and dimensions first, auto-resizes large images to a temp JPEG to prevent provider context limit failures."
 ---
 
 # Safe Image Analysis
@@ -68,7 +68,7 @@ python3 -c "from PIL import Image; print('Pillow available')" 2>/dev/null
 - Warn the user: *"Pillow is not installed. Cannot safely check image dimensions. Install with: `pip install Pillow`"*
 - Still proceed to Step 2 for the file size check
 - If file size exceeds MAX_FILE_SIZE → **ABORT** analysis, warn user the image is too large and Pillow is required to resize it
-- If file size is under MAX_FILE_SIZE → proceed with `look_at`/`Read` on the original, but warn that dimensions were not verified
+- If file size is under MAX_FILE_SIZE → proceed with `look_at`/`Read` on the original, but **warn** that dimensions were not verified and a large-dimension image could still cause failure
 
 ### Step 2: Check file size
 
@@ -103,14 +103,14 @@ Record: `DIMS_EXCEEDS=true` if the longest side exceeds 2000 px.
 
 ### Step 5: Resize to temp file
 
-Run this self-contained Python script. Capture `TEMP_PATH` from the output.
+Run this self-contained Python script. The image path must be passed as an argument — do NOT use a quoted heredoc, as that prevents variable expansion.
 
 ```bash
-python3 << 'RESIZE_EOF'
+python3 -c "
+import sys, tempfile, os
 from PIL import Image
-import tempfile, os
 
-IMAGE_PATH = "$IMAGE_PATH"
+IMAGE_PATH = sys.argv[1]
 TARGET = 1500
 QUALITY = 85
 
@@ -119,8 +119,19 @@ img = Image.open(IMAGE_PATH)
 # Resize maintaining aspect ratio, never upscale
 img.thumbnail((TARGET, TARGET), Image.LANCZOS)
 
-# Flatten alpha channel to white background for JPEG output
-if img.mode in ('RGBA', 'LA', 'PA'):
+# Flatten alpha/palette transparency to white background for JPEG output
+# Handles: RGBA, LA, PA (palette with alpha), P (palette — may have transparency metadata)
+if img.mode in ('RGBA', 'LA'):
+    background = Image.new('RGB', img.size, (255, 255, 255))
+    background.paste(img, mask=img.split()[-1])
+    img = background
+elif img.mode == 'PA':
+    img = img.convert('RGBA')
+    background = Image.new('RGB', img.size, (255, 255, 255))
+    background.paste(img, mask=img.split()[-1])
+    img = background
+elif img.mode == 'P':
+    img = img.convert('RGBA')
     background = Image.new('RGB', img.size, (255, 255, 255))
     background.paste(img, mask=img.split()[-1])
     img = background
@@ -135,8 +146,10 @@ img.save(tmp_path, 'JPEG', quality=QUALITY)
 size_kb = os.path.getsize(tmp_path) / 1024
 print(f'Resized to: {img.size[0]}x{img.size[1]}, {size_kb:.0f} KB')
 print(f'TEMP_PATH={tmp_path}')
-RESIZE_EOF
+" "$IMAGE_PATH"
 ```
+
+> **Note on animated GIFs:** PIL loads only the first frame of animated GIFs. The resized JPEG will represent the first frame only — animation is not preserved. This is acceptable for visual analysis purposes.
 
 Parse `TEMP_PATH` from the last line of output (format: `TEMP_PATH=/tmp/safe-img-XXXX.jpg`).
 
