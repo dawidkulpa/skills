@@ -1,0 +1,73 @@
+name: Sync harness skills
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - run: python -m unittest discover -s tests -v
+
+  check-generated-output:
+    if: github.event_name == 'pull_request'
+    needs: test
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - run: python scripts/sync_harness_skills.py --check
+
+  sync-master:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    needs: test
+    permissions:
+      contents: write
+    concurrency:
+      group: sync-harness-skills-master
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - name: Confirm clean checkout
+        run: test -z "$(git status --porcelain)"
+      - run: python scripts/sync_harness_skills.py
+      - name: Commit generated output when changed
+        run: |
+          git add -A
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: sync harness skills"
+          git push origin HEAD:master
