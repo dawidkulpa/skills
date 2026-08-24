@@ -1,0 +1,11 @@
+harnesses:
+  hermes:
+    exclude:
+      - vikunja-board-poller
+      - vikunja-task-executor
+      - vikunja-task-refiner
+  librechat:
+    exclude:
+      - vikunja-board-poller
+      - vikunja-task-executor
+      - vikunja-task-refiner
