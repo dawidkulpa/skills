@@ -6,9 +6,9 @@ A collection of specialized, portable instruction sets for AI agents. Each canon
 
 `skills/` is the complete authoritative source of every skill. Each immediate skill directory contains its `SKILL.md` entry point and any supporting files.
 
-The root-level `hermes/` and `librechat/` directories are committed generated outputs. Do not edit them by hand: `scripts/sync_harness_skills.py` recreates them from `skills/` and `harnesses.yaml`, removing stale generated files and outputs. Each generated directory carries a `.generated-by-sync-harness-skills` ownership marker.
+The root-level `hermes/` and `librechat/` directories are committed generated outputs. Do not edit or regenerate them in contributor branches. GitHub Actions recreates them from `skills/` and `harnesses.yaml` after changes reach `master`, removing stale generated files and outputs. Each generated directory carries a `.generated-by-sync-harness-skills` ownership marker.
 
-## Setup and synchronization
+## Development setup
 
 Python 3.11 or newer is required.
 
@@ -16,18 +16,9 @@ Python 3.11 or newer is required.
 python -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements.txt
-python scripts/sync_harness_skills.py
 ```
 
-Run the generator after changing a canonical skill or harness configuration. It is idempotent: unchanged generated trees are left in place.
-
-Use read-only drift detection in CI or before committing:
-
-```bash
-python scripts/sync_harness_skills.py --check
-```
-
-`--check` exits with status 0 when generated outputs are current, 1 when drift exists, and 2 for invalid configuration, unsafe paths, or filesystem/source errors. Use another config in a test or local experiment with `--config path/to/harnesses.yaml`; relative paths are resolved from the repository root.
+Contributors commit only canonical skill and harness-configuration changes. Do not run the synchronization script in contributor branches. Pull-request CI exercises the generator in its disposable checkout, and the `sync-master` job regenerates and commits harness output after merge.
 
 ## Harness configuration
 
@@ -65,7 +56,7 @@ harnesses:
     exclude: [vikunja-board-poller]
 ```
 
-To add a harness, add a lowercase kebab-case output name to `harnesses.yaml`, use exact immediate directory names from `skills/` in optional `include` and `exclude` lists, then run the synchronization command and commit both the configuration and generated output. The current `hermes` and `librechat` harnesses intentionally exclude `vikunja-board-poller`, `vikunja-task-executor`, and `vikunja-task-refiner` while retaining every other canonical skill.
+To add a harness, add a lowercase kebab-case output name to `harnesses.yaml` and use exact immediate directory names from `skills/` in optional `include` and `exclude` lists. Commit the canonical configuration only; GitHub Actions generates the output after merge. The current `hermes` and `librechat` harnesses intentionally exclude `vikunja-board-poller`, `vikunja-task-executor`, and `vikunja-task-refiner` while retaining every other canonical skill.
 
 ## How to use a skill
 
