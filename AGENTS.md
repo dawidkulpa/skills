@@ -76,6 +76,10 @@ Additional files inside a skill folder are optional and serve as supporting reso
 
 **Important:** SKILL.md is the entry point. Everything else is auxiliary. Agents load SKILL.md first; supporting files are referenced *from* SKILL.md if needed.
 
+## Harness Outputs
+
+The root-level `hermes/` and `librechat/` trees are generated artifacts. Do not run the harness synchronization script or commit generated harness files in contributor branches. Edit only canonical files under `skills/` and `harnesses.yaml`; pull-request CI validates generation in a disposable checkout, and GitHub Actions regenerates and commits harness outputs after merge to `master`.
+
 ## Self-Contained Skills
 
 Each skill is self-contained:
