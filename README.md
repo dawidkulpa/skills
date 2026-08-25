@@ -27,17 +27,11 @@ Contributors commit only canonical skill and harness-configuration changes. Do n
 ```yaml
 harnesses:
   hermes:
-    include:
-      - safe-image-analysis
-      - web-search-querying
     exclude:
       - vikunja-board-poller
       - vikunja-task-executor
       - vikunja-task-refiner
   librechat:
-    include:
-      - safe-image-analysis
-      - web-search-querying
     exclude:
       - vikunja-board-poller
       - vikunja-task-executor
@@ -62,7 +56,7 @@ harnesses:
     exclude: [vikunja-board-poller]
 ```
 
-To add a harness, add a lowercase kebab-case output name to `harnesses.yaml` and use exact immediate directory names from `skills/` in optional `include` and `exclude` lists. Add every intended skill explicitly to harnesses that use an `include` allowlist. Commit the canonical configuration only; GitHub Actions generates the output after merge. The current `hermes` and `librechat` harnesses explicitly include `safe-image-analysis` and `web-search-querying`, while excluding the three Vikunja-specific skills.
+To add a harness, add a lowercase kebab-case output name to `harnesses.yaml` and use exact immediate directory names from `skills/` in optional `include` and `exclude` lists. Commit the canonical configuration only; GitHub Actions generates the output after merge. The current `hermes` and `librechat` harnesses intentionally exclude `vikunja-board-poller`, `vikunja-task-executor`, and `vikunja-task-refiner` while retaining every other canonical skill.
 
 ## How to use a skill
 
