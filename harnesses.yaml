@@ -1,10 +1,16 @@
 harnesses:
   hermes:
+    include:
+      - safe-image-analysis
+      - web-search-querying
     exclude:
       - vikunja-board-poller
       - vikunja-task-executor
       - vikunja-task-refiner
   librechat:
+    include:
+      - safe-image-analysis
+      - web-search-querying
     exclude:
       - vikunja-board-poller
       - vikunja-task-executor
