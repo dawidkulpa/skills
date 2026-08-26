@@ -22,6 +22,10 @@ Ground research in sources the reader can open and verify. Work in the user's la
 
 Do not add citations to casual conversation, creative writing, or facts derived only from user-provided material unless attribution would help.
 
+## Web Search Prerequisite
+
+Before the first Web Search or `web_search` call, load the `web-search-querying` skill and follow its query-design, localization, iterative follow-up, and coverage rules. Do not begin searching and load it only afterward.
+
 ## Retrieval rules
 
 1. Use the retrieval capabilities actually available in the current LibreChat agent: Web Search, Web Fetch, browser tools, or a relevant MCP server. Never claim that a site, database, or document was checked when it was not accessible.
