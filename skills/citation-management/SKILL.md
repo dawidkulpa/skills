@@ -16,6 +16,10 @@ Find and validate publication metadata inside the normal LibreChat workflow. Use
 
 Respond in the user's language, while preserving titles, author names, journal names, and identifiers exactly as published.
 
+## Web Search Prerequisite
+
+Before the first Web Search or `web_search` call, load the `web-search-querying` skill and follow its query-design, localization, iterative follow-up, and coverage rules. Do not begin searching and load it only afterward.
+
 ## Use cases
 
 - find a known or relevant paper;
