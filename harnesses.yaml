@@ -1,6 +1,7 @@
 harnesses:
   hermes:
     exclude:
+      - grounded-citations
       - vikunja-board-poller
       - vikunja-task-executor
       - vikunja-task-refiner
