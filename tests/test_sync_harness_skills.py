@@ -201,19 +201,24 @@ class SyncHarnessSkillsTests(unittest.TestCase):
         self.assertEqual(self.synchronize(), (0, ["output"]))
         self.assertTrue(generated_skill.exists())
 
-    def test_actual_vikunja_exclusions_are_configured_for_each_current_harness(self) -> None:
+    def test_actual_harness_exclusions_are_configured(self) -> None:
         inventory = sync.inventory_skills(PROJECT_ROOT)
         selections = sync._load_config(PROJECT_ROOT / "harnesses.yaml", inventory)
-        excluded = {
+        vikunja_excluded = {
             "vikunja-board-poller",
             "vikunja-task-executor",
             "vikunja-task-refiner",
         }
 
         self.assertEqual(set(selections), {"hermes", "librechat"})
-        for harness in selections:
-            self.assertFalse(excluded & set(selections[harness]))
-            self.assertEqual(set(inventory) - set(selections[harness]), excluded)
+        self.assertEqual(
+            set(inventory) - set(selections["hermes"]),
+            vikunja_excluded | {"grounded-citations"},
+        )
+        self.assertEqual(
+            set(inventory) - set(selections["librechat"]),
+            vikunja_excluded,
+        )
 
 
 if __name__ == "__main__":

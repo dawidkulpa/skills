@@ -28,6 +28,7 @@ Contributors commit only canonical skill and harness-configuration changes. Do n
 harnesses:
   hermes:
     exclude:
+      - grounded-citations
       - vikunja-board-poller
       - vikunja-task-executor
       - vikunja-task-refiner
@@ -56,7 +57,7 @@ harnesses:
     exclude: [vikunja-board-poller]
 ```
 
-To add a harness, add a lowercase kebab-case output name to `harnesses.yaml` and use exact immediate directory names from `skills/` in optional `include` and `exclude` lists. Commit the canonical configuration only; GitHub Actions generates the output after merge. The current `hermes` and `librechat` harnesses intentionally exclude `vikunja-board-poller`, `vikunja-task-executor`, and `vikunja-task-refiner` while retaining every other canonical skill.
+To add a harness, add a lowercase kebab-case output name to `harnesses.yaml` and use exact immediate directory names from `skills/` in optional `include` and `exclude` lists. Commit the canonical configuration only; GitHub Actions generates the output after merge. Both current harnesses exclude `vikunja-board-poller`, `vikunja-task-executor`, and `vikunja-task-refiner`; Hermes additionally excludes `grounded-citations`, while LibreChat receives it.
 
 ## How to use a skill
 
@@ -66,7 +67,7 @@ To add a harness, add a lowercase kebab-case output name to `harnesses.yaml` and
 
 ## License
 
-This project is licensed under the MIT License. See [LICENSE](./LICENSE) for details.
+This project is licensed under the MIT License. See [LICENSE](./LICENSE) for details. Adapted skill material and license notices are listed in [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md).
 
 © 2026 dawidkulpa
 
