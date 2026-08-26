@@ -82,12 +82,13 @@ The root-level `hermes/` and `librechat/` trees are generated artifacts. Do not 
 
 ## Self-Contained Skills
 
-Each skill is self-contained:
+Each skill contains its complete domain workflow. A skill may name another canonical skill only as an explicit runtime prerequisite for a shared capability:
 
-- Use **relative paths only** to reference supporting files (e.g., `./examples/template.md`)
-- **Never cross-reference** other skill folders
-- Never assume other skills are available in the agent's context
-- All required instructions, context, and examples live inside the skill folder
+- Use **relative paths only** to reference supporting files inside the same skill (e.g., `./examples/template.md`)
+- Never use relative links or file paths into another skill folder
+- A cross-skill prerequisite must name an existing immediate directory under `skills/` and state exactly when the agent must load it
+- Do not otherwise assume another skill is available in the agent's context
+- Keep all domain-specific instructions, context, and examples inside the skill folder; a prerequisite must not replace the skill's own workflow
 
 ## Verification Checklist
 
@@ -98,5 +99,5 @@ Before finalizing a skill:
 - [ ] SKILL.md exists at skill root (not nested)
 - [ ] Frontmatter includes `name` and `description`
 - [ ] Description explains what the skill does + when an agent should use it
-- [ ] No cross-references to other skill folders
+- [ ] Cross-skill prerequisites, if any, name an existing canonical skill and have an explicit load condition
 - [ ] Supporting files use relative paths only

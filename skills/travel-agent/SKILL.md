@@ -12,6 +12,10 @@ metadata:
 
 Plan useful trips in the conversation without forcing every request through a fixed multi-phase process or mandatory document. Respond in the user's language and adapt depth to the question.
 
+## Web Search Prerequisite
+
+Before the first Web Search or `web_search` call, load the `web-search-querying` skill and follow its query-design, localization, iterative follow-up, and coverage rules. Do not begin searching and load it only afterward.
+
 ## Discover only what changes the plan
 
 Use details already supplied. For a full trip, ask one consolidated set of missing essentials:

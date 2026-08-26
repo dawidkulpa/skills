@@ -14,6 +14,10 @@ metadata:
 
 Create practical care and recovery plans for indoor plants, balconies, allotments, and gardens in Poland. Respond in the user's language. Use Polish common names alongside scientific names when identification is reliable.
 
+## Web Search Prerequisite
+
+Before the first Web Search or `web_search` call, load the `web-search-querying` skill and follow its query-design, localization, iterative follow-up, and coverage rules. Do not begin searching and load it only afterward.
+
 ## Establish context
 
 Use details already present and ask only for missing information that changes the advice:

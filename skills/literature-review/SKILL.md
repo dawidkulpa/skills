@@ -16,6 +16,10 @@ Conduct the review inside the normal LibreChat conversation using the retrieval 
 
 Respond in the user's language. Preserve publication titles in their original language and translate only explanatory prose unless requested otherwise.
 
+## Web Search Prerequisite
+
+Before the first Web Search or `web_search` call, load the `web-search-querying` skill and follow its query-design, localization, iterative follow-up, and coverage rules. Do not begin searching and load it only afterward.
+
 ## Classify the review honestly
 
 Choose the lightest method that meets the request:

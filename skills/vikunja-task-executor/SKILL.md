@@ -11,6 +11,10 @@ Execute only approved, refined, non-coding tasks from the Queued column.
 
 **Core principle:** follow the written implementation plan exactly, execute only within the allowed domain, and escalate immediately when a hard gate is triggered.
 
+## Web Search Prerequisite
+
+When an approved task requires web research, apply this prerequisite before executing its first research step. Before the first Web Search or `web_search` call, load the `web-search-querying` skill and follow its query-design, localization, iterative follow-up, and coverage rules. Do not begin searching and load it only afterward.
+
 ## Configuration Constants
 
 | Constant | Value | Description |

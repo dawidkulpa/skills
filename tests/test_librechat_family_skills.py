@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import unittest
 from pathlib import Path
 
@@ -41,6 +42,12 @@ FORBIDDEN_EXTERNAL_WORKFLOWS = {
     "eval-viewer",
 }
 
+WEB_SEARCH_REFERENCE = re.compile(r"\bweb(?:[ _-])search\b", re.IGNORECASE)
+WEB_SEARCH_PREREQUISITE = (
+    "Before the first Web Search or `web_search` call, load the "
+    "`web-search-querying` skill"
+)
+
 
 def load_skill(name: str) -> tuple[dict[str, object], str]:
     path = SKILLS_ROOT / name / "SKILL.md"
@@ -76,6 +83,18 @@ class LibreChatFamilySkillsTests(unittest.TestCase):
             for forbidden in FORBIDDEN_EXTERNAL_WORKFLOWS:
                 with self.subTest(skill=name, forbidden=forbidden):
                     self.assertNotIn(forbidden, body)
+
+    def test_web_searching_skills_load_query_guidance_before_searching(self) -> None:
+        for path in sorted(SKILLS_ROOT.glob("*/SKILL.md")):
+            name = path.parent.name
+            if name == "web-search-querying":
+                continue
+            content = path.read_text(encoding="utf-8")
+            if not WEB_SEARCH_REFERENCE.search(content):
+                continue
+            _, body = load_skill(name)
+            with self.subTest(skill=name):
+                self.assertIn(WEB_SEARCH_PREREQUISITE, body)
 
     def test_librechat_specific_contracts_are_explicit(self) -> None:
         image_frontmatter, image_body = load_skill("imagegen")
