@@ -28,6 +28,22 @@ LIBRECHAT_FAMILY_SKILLS = {
     "travel-agent",
 }
 
+COOKING_SKILLS = {
+    "convert-recipe",
+    "create-recipe",
+    "export-recipe",
+    "manage-pantry",
+    "meal-plan",
+    "scale-recipe",
+    "shopping-list",
+}
+
+HUMAN_READABLE_DEFAULT = (
+    "Render the default answer as normal Markdown in the chat, never as a fenced "
+    "code block."
+)
+EMOJI_GUIDANCE = "Add a small number of familiar food emojis to aid scanning"
+
 FORBIDDEN_EXTERNAL_WORKFLOWS = {
     "parallel-cli",
     "OPENROUTER_API_KEY",
@@ -120,6 +136,24 @@ class LibreChatFamilySkillsTests(unittest.TestCase):
         _, travel_body = load_skill("travel-agent")
         for required in ("children", "total budget", "backup"):
             self.assertIn(required, travel_body.lower())
+
+    def test_cooking_skills_default_to_human_readable_chat_output(self) -> None:
+        for name in sorted(COOKING_SKILLS):
+            frontmatter, body = load_skill(name)
+            metadata = frontmatter["metadata"]
+            if not isinstance(metadata, dict):
+                self.fail(f"{name} metadata is not a mapping")
+            with self.subTest(skill=name):
+                self.assertIn(HUMAN_READABLE_DEFAULT, body)
+                self.assertIn(EMOJI_GUIDANCE, body)
+                self.assertIn("typically 3–6 across a full answer", body)
+                self.assertIn("Never add one to every line", body)
+                self.assertNotIn("```", body)
+                self.assertNotIn("cooklang", body.lower())
+                self.assertNotIn(
+                    "cooklang", str(frontmatter["description"]).lower()
+                )
+                self.assertNotIn("cooklang", str(metadata["tags"]).lower())
 
 
 if __name__ == "__main__":
