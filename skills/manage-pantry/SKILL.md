@@ -4,7 +4,7 @@ description: "Use to review pantry stock, expiring food, low supplies, and cook-
 metadata:
   author: "Dawid Kulpa, Hermes Agent"
   tags: "cooking, pantry, food-waste, inventory, bilingual"
-  version: "1.0.0"
+  version: "1.1.0"
   adapted-from: "https://github.com/cooklang/cooklang-skills/tree/main/skills/manage-pantry"
   source-license: "MIT"
 ---
@@ -29,23 +29,15 @@ Respond in the user's language. For Polish, use metric units and Polish product 
 5. Suggest meals that use the most urgent items. Separate `can make now` from `missing one or two items`, and respect allergies and dietary restrictions.
 6. Return an updated snapshot for the user to copy after shopping or cooking. Subtract only amounts the user confirms were used.
 
-## Portable snapshot format
+## Default presentation
 
-```yaml
-pantry:
-  rice:
-    quantity: 800 g
-fridge:
-  milk:
-    quantity: 1 l
-    use-by: 2026-08-29
-    opened: 2026-08-26
-freezer:
-  peas:
-    quantity: 500 g
-```
+Render the default answer as normal Markdown in the chat, never as a fenced code block.
 
-Use ISO dates (`YYYY-MM-DD`) to avoid ambiguity. A table is fine when the user does not want YAML.
+Add a small number of familiar food emojis to aid scanning—typically 3–6 across a full answer. An emoji may prefix a key ingredient (for example, `🍅 tomatoes — 800 g`) or a section heading. Never add one to every line, use an ambiguous emoji, or replace the ingredient name with an emoji.
+
+Use readable tables or bullet lists for pantry, fridge, and freezer items. Include quantity, storage location, relevant date, status, and a short action where known.
+
+Use ISO dates (`YYYY-MM-DD`) to avoid ambiguity. Provide a copyable YAML or JSON snapshot only when the user explicitly requests a structured inventory format.
 
 ## Output
 

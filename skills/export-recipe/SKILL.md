@@ -1,56 +1,46 @@
 ---
 name: export-recipe
-description: "Use to render a Cooklang recipe as Markdown, JSON, YAML, or print-ready text; użyj do eksportu przepisu Cooklang do innego formatu."
+description: "Use to format a recipe for easy reading, sharing, printing, or structured export; użyj do czytelnego formatowania i eksportu przepisu."
 metadata:
   author: "Dawid Kulpa, Hermes Agent"
-  tags: "cooking, cooklang, export, structured-data, bilingual"
-  version: "1.0.0"
+  tags: "cooking, recipes, export, structured-data, bilingual"
+  version: "1.1.0"
   adapted-from: "https://github.com/cooklang/cooklang-skills/tree/main/skills/export-recipe"
   source-license: "MIT"
 ---
 
-# Export a Cooklang Recipe
+# Format or Export a Recipe
 
-Convert Cooklang content supplied in the conversation or an accessible attachment into the requested text format. Return the result in chat; do not claim that a file was created unless a connected file or code tool actually produced one.
+Format recipe content supplied in the conversation or an accessible attachment for reading, sharing, or printing. Return the result in chat; do not claim that a file was created unless a connected file or code tool actually produced one.
 
-Respond in the user's language and preserve source attribution, ingredient meaning, quantities, units, ordering, optional markers, and notes.
+Respond in the user's language and preserve source attribution, ingredient meaning, quantities, units, ordering, optional ingredients, and notes.
 
 ## Workflow
 
-1. Identify the source recipe or recipes and requested target: Markdown, JSON, YAML, plain text, or a print-friendly layout.
-2. Parse frontmatter, ingredients, cookware, timers, sections, steps, and notes.
-3. Ask only when ambiguity would make the exported data wrong. Otherwise retain uncertain source text and flag it.
-4. Render the output in a fenced block labeled with the target format.
-5. Validate structure before sending:
-   - JSON must parse conceptually as one complete value with quoted keys and no comments;
-   - YAML indentation and scalar types must be unambiguous;
-   - Markdown must separate metadata, ingredients, equipment, and ordered instructions;
-   - print-ready text must remain readable without hidden styling.
+1. Identify the source recipe or recipes and the requested use: easy reading in chat, sharing, printing, Markdown, plain text, JSON, or YAML.
+2. Extract recipe metadata, ingredients, equipment, steps, timings, sections, and notes without exposing source-specific markup.
+3. Ask only when ambiguity would make the result wrong. Otherwise retain uncertain source text and flag it.
+4. Default to a polished, reader-facing recipe rendered directly in chat. Use a fenced code block only when the user explicitly requests a machine-readable or copy-exact format such as JSON, YAML, or raw Markdown.
+5. Validate the chosen format before sending.
 
-## JSON shape
+## Reader-facing default
 
-```json
-{
-  "title": "Recipe name",
-  "servings": 4,
-  "times": {
-    "prep": "15 minutes",
-    "cook": "30 minutes"
-  },
-  "source": "https://example.org/original",
-  "ingredients": [
-    {"name": "flour", "quantity": 250, "unit": "g", "note": null}
-  ],
-  "cookware": ["large bowl"],
-  "steps": ["Combine the ingredients."]
-}
-```
+Render the default answer as normal Markdown in the chat, never as a fenced code block.
 
-Use `null` for a genuinely absent structured value rather than inventing one. Keep original text when a quantity is a range or non-numeric phrase that should not be coerced.
+Add a small number of familiar food emojis to aid scanning—typically 3–6 across a full answer. An emoji may prefix a key ingredient (for example, `🍅 tomatoes — 800 g`) or a section heading. Never add one to every line, use an ambiguous emoji, or replace the ingredient name with an emoji.
+
+Use a clear title followed by servings and times, ingredients as bullet points, numbered instructions, notes or substitutions, storage guidance when relevant, and source attribution.
+
+For a print-friendly result, remove conversational commentary and keep the complete recipe compact enough to follow on paper. For a sharing result, retain the source link and include only context that helps the recipient cook the dish.
+
+## Structured formats
+
+Use JSON or YAML only when the user asks for it. Represent missing structured values honestly rather than inventing them, and preserve ranges or non-numeric quantities as text when coercion would lose meaning. A structured export should include the title, servings, times, source, ingredients, equipment, steps, and notes that are available.
 
 ## Final check
 
 - No ingredient, step, attribution, or safety note was dropped.
 - Quantities were not rescaled unless requested.
 - The output language and units match the user's request.
-- The answer clearly distinguishes chat output from an actually generated downloadable file.
+- Reader-facing output is directly readable rather than presented as code.
+- The answer distinguishes chat output from an actually generated downloadable file.
