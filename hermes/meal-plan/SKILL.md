@@ -4,7 +4,7 @@ description: "Use to plan meals around household needs, schedule, pantry, and wa
 metadata:
   author: "Dawid Kulpa, Hermes Agent"
   tags: "cooking, meal-planning, family, pantry, bilingual"
-  version: "1.0.0"
+  version: "1.1.0"
   adapted-from: "https://github.com/cooklang/cooklang-skills/tree/main/skills/meal-plan"
   source-license: "MIT"
 ---
@@ -38,26 +38,19 @@ Never treat an allergy as a preference. If the user did not provide a recipe col
 
 ## Output format
 
-```markdown
-## Assumptions
-- ...
+Render the default answer as normal Markdown in the chat, never as a fenced code block.
 
-## Meal plan
-| Day | Meal | Dish | Active time | Prep/leftover note |
-|---|---|---|---:|---|
+Add a small number of familiar food emojis to aid scanning—typically 3–6 across a full answer. An emoji may prefix a key ingredient (for example, `🍅 tomatoes — 800 g`) or a section heading. Never add one to every line, use an ambiguous emoji, or replace the ingredient name with an emoji.
 
-## Prep once, use twice
-- ...
+Include, in order:
 
-## Shopping list
-### Produce / Warzywa i owoce
-- [ ] ...
+1. important assumptions;
+2. a readable meal-plan table with day, meal, dish, active time, and prep or leftover notes;
+3. a `Prep once, use twice` section when batch preparation helps;
+4. a shopping list grouped by supermarket section;
+5. `Use first and storage notes` for perishables and leftovers.
 
-## Use first and storage notes
-- ...
-```
-
-Offer Cooklang versions of newly proposed recipes only if the user wants them. Do not claim the plan, pantry, or calendar was saved.
+When the user asks for a recipe from the plan, expand it into a normal ingredient list and numbered cooking steps rather than machine-oriented notation. Do not claim the plan, pantry, or calendar was saved.
 
 ## Final check
 

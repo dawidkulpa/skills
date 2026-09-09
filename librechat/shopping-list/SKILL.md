@@ -3,8 +3,8 @@ name: shopping-list
 description: "Use to consolidate recipe ingredients into a practical grocery checklist; użyj do tworzenia listy zakupów spożywczych z przepisów."
 metadata:
   author: "Dawid Kulpa, Hermes Agent"
-  tags: "cooking, groceries, shopping-list, cooklang, bilingual"
-  version: "1.0.0"
+  tags: "cooking, groceries, shopping-list, bilingual"
+  version: "1.1.0"
   adapted-from: "https://github.com/cooklang/cooklang-skills/tree/main/skills/shopping-list"
   source-license: "MIT"
 ---
@@ -25,23 +25,13 @@ Build a grocery list from recipes or a meal plan supplied in the conversation. T
 
 ## Output format
 
-```markdown
-## Shopping list / Lista zakupów
+Render the default answer as normal Markdown in the chat, never as a fenced code block.
 
-### Produce / Warzywa i owoce
-- [ ] onion / cebula — need 450 g; buy about 500 g
+Add a small number of familiar food emojis to aid scanning—typically 3–6 across a full answer. An emoji may prefix a key ingredient (for example, `🍅 tomatoes — 800 g`) or a section heading. Never add one to every line, use an ambiguous emoji, or replace the ingredient name with an emoji.
 
-### Dairy / Nabiał
-- [ ] milk / mleko — 1 l
+Use a clear `Shopping list / Lista zakupów` heading, supermarket-section subheadings, and checkbox bullets. Write entries in ordinary language, for example: `onion / cebula — need 450 g; buy about 500 g`.
 
-### Check at home / Sprawdź w domu
-- [ ] salt / sól — about 10 g needed
-
-### Optional / Opcjonalne
-- [ ] ...
-```
-
-If requested, also provide JSON, YAML, or a plain checklist in a fenced block. Do not claim that a list was saved, synced, ordered, or purchased.
+Add separate `Check at home / Sprawdź w domu` and `Optional / Opcjonalne` sections only when needed. If requested, provide JSON, YAML, or a copy-exact plain checklist in a fenced block. Do not claim that a list was saved, synced, ordered, or purchased.
 
 ## Final check
 
